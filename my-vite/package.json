@@ -5,6 +5,7 @@
   "bin": "./bin/entry.js",
   "license": "MIT",
   "dependencies": {
-    "koa": "^2.13.1"
+    "koa": "^2.13.1",
+    "koa-static": "^5.0.0"
   }
 }

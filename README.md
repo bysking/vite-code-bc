@@ -73,3 +73,5 @@ C:\Users\bysking\AppData\Roaming\npm\node_modules\my-vite -> C:\Users\bysking\De
 ```
 
 在 nodemon 安装所在目录执行 nodemon (本质是执行 my-vite)
+
+- 基于 koa-static 库搭建静态资源服务

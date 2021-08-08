@@ -79,3 +79,47 @@ C:\Users\bysking\AppData\Roaming\npm\node_modules\my-vite -> C:\Users\bysking\De
 - vite 路径必须是"./", "/", "../"相对路径
 - es6 模块 会自动发请求查找响应文件， 所以我们需要根据需要对文件进行改写
 - 默认请求卖弄 main.js 入口文件，于是对 main.js 进行文件改写 非相对路劲增加 /@modules
+
+> 路替换
+
+import { createApp } from 'vue'
+
+改成
+
+import { createApp } from '/@modules/vue'
+
+借助 es-module-lexer 实现文件资源 import 内容到 ast 语法的解析
+借助 magic-string 实现增强字符串的处理，把字符串变成 对象类型
+
+```js
+import { createApp } from "vue";
+import App from "./App.vue";
+import "./index.css";
+
+createApp(App).mount("#app")[
+  // 经过es-module-lexer模块的parse转换
+  ([
+    { n: "vue", s: 27, e: 30, ss: 0, se: 31, d: -1, a: -1 },
+    { n: "./App.vue", s: 50, e: 59, ss: 33, se: 60, d: -1, a: -1 },
+    { n: "./index.css", s: 70, e: 81, ss: 62, se: 82, d: -1, a: -1 },
+  ],
+  [],
+  false)
+];
+```
+
+```js
+// --> 输入
+import { createApp } from "vue";
+import App from "./App.vue";
+import "./index.css";
+
+createApp(App).mount("#app");
+
+// --> 重写之后的输出
+import { createApp } from "/@mpdules/vue"; // 注意这里
+import App from "./App.vue";
+import "./index.css";
+
+createApp(App).mount("#app");
+```

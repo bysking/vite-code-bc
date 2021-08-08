@@ -13,7 +13,7 @@ function createServer() {
 
   // 插件技巧
   const resolvePlugins = [
-    serverPluginModule, // 重写请求路径，基于koa的洋葱模型
+    serverPluginModule, // 重写请求路径，基于koa的洋葱模型，重写后浏览器会发送新的请求
     serverPlugin,
   ];
   resolvePlugins.forEach((plugin) => plugin(context));

@@ -51,3 +51,9 @@ yarn install
 - bin 目录存在
 - bin 下面有执行文件，执行文件添加执行环境：#! /usr/bin/env node
 - npm link 在 my-vite 目录下执行"npm link"把我们的目录加入当前用户环境
+
+// 在全局 npm 上挂在脚本，指向当前目录的 my-vite\bin\entry.js
+C:\Users\bysking\AppData\Roaming\npm\my-vite -> C:\Users\bysking\AppData\Roaming\npm\node_modules\my-vite\bin\entry.js
+C:\Users\bysking\AppData\Roaming\npm\node_modules\my-vite -> C:\Users\bysking\Desktop\github-bysking\vite-code-bc\my-vite
+
+- 基于 koa 实现一个静态资源服务器

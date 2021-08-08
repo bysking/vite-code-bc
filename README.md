@@ -49,4 +49,5 @@ yarn install
 > 让我们的包能关联响应控制台命令
 
 - bin 目录存在
-- bin 下面有执行文件
+- bin 下面有执行文件，执行文件添加执行环境：#! /usr/bin/env node
+- npm link 在 my-vite 目录下执行"npm link"把我们的目录加入当前用户环境

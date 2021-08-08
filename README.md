@@ -37,3 +37,16 @@ yarn install
   > Local:    http://localhost:3000/
 
 ```
+
+查看控制台，我们可以看到，项目正常启动，请求资源加载的是单个的文件
+
+> 接下来实现我们自己的 vite
+
+- 新建项目文件夹 my-vite
+- cd my--vite 进入文件夹,然后初始化 yarn init -y
+- koa 安装
+
+> 让我们的包能关联响应控制台命令
+
+- bin 目录存在
+- bin 下面有执行文件

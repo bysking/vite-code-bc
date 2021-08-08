@@ -57,3 +57,19 @@ C:\Users\bysking\AppData\Roaming\npm\my-vite -> C:\Users\bysking\AppData\Roaming
 C:\Users\bysking\AppData\Roaming\npm\node_modules\my-vite -> C:\Users\bysking\Desktop\github-bysking\vite-code-bc\my-vite
 
 - 基于 koa 实现一个静态资源服务器
+- 基于 nodemon 实现文件资源变更监听
+
+```js
+ yarn add nodemon
+```
+
+配置 nodemon.json
+
+```js
+{
+  "watch": ["my-vite"],
+  "exec": "my-vite"
+}
+```
+
+在 nodemon 安装所在目录执行 nodemon (本质是执行 my-vite)

@@ -75,3 +75,7 @@ C:\Users\bysking\AppData\Roaming\npm\node_modules\my-vite -> C:\Users\bysking\De
 在 nodemon 安装所在目录执行 nodemon (本质是执行 my-vite)
 
 - 基于 koa-static 库搭建静态资源服务
+
+- vite 路径必须是"./", "/", "../"相对路径
+- es6 模块 会自动发请求查找响应文件， 所以我们需要根据需要对文件进行改写
+- 默认请求卖弄 main.js 入口文件，于是对 main.js 进行文件改写 非相对路劲增加 /@modules

@@ -1,7 +1,7 @@
 let serverPlugin = require("./serverPluginStatic.js");
+let serverPluginModule = require("./serverPluginModule.js");
 
 const Koa = require("koa");
-console.log(serverPlugin);
 
 function createServer() {
   let app = new Koa({});
@@ -11,10 +11,11 @@ function createServer() {
     root: process.cwd(), // 进程当前所在的目录
   };
 
-  console.log(context);
-
   // 插件技巧
-  const resolvePlugins = [serverPlugin];
+  const resolvePlugins = [
+    serverPluginModule, // 重写请求路径，基于koa的洋葱模型
+    serverPlugin,
+  ];
   resolvePlugins.forEach((plugin) => plugin(context));
 
   return app;

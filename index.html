@@ -5,9 +5,139 @@
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+    <style>
+      .wrapper {
+        height: 600px;
+        position: relative;
+        border: 1px solid red;
+        /* overflow: auto; */
+      }
+      .item {
+        width: 100px;
+        height: 100px;
+        /* margin: 2px; */
+        background-color: antiquewhite;
+        position: absolute;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="./vite-vue/src/main.js"></script>
+    <!-- <div id="app"></div>
+    <script type="module" src="./vite-vue/src/main.js"></script> -->
+    <span onclick="exportpdf()">导出测试</span>
+    <div id="export">
+      <div id="container" class="wrapper">
+        <div style="top: 10px; left: 10px" class="item">1</div>
+        <div style="top: 240px; left: 120px" class="item">2</div>
+        <div style="top: 300px; left: 10px" class="item">3</div>
+        <div style="top: 460px; left: 300px" class="item">4</div>
+        <div
+          style="top: 120px; left: 0; height: 20px; width: 100%"
+          class="item page"
+        >
+          ---page---
+        </div>
+        <div
+          style="top: 410px; left: 0; height: 20px; width: 100%"
+          class="item page"
+        >
+          ---page---
+        </div>
+      </div>
+    </div>
+    <div id="target"></div>
+    <script>
+      function updateHeight(list, page) {
+        let y = page.bb;
+        list.forEach((item) => {
+          item.style.top = getY(item) - y + "px";
+        });
+      }
+      function getY(dom) {
+        let s = dom.style.top;
+        return Number(s.slice(0, s.length - 2));
+      }
+      function getB(dom) {
+        let s = dom.style.top;
+        let h = dom.style.height;
+
+        s = Number(s.slice(0, s.length - 2));
+        h = Number(h.slice(0, h.length - 2));
+        return s + h;
+      }
+
+      function getHeight(s) {
+        return Number(s.slice(0, s.length - 2));
+      }
+
+      function isPage(dom) {
+        return dom.className.includes("page");
+      }
+
+      function getDiv(list, height) {
+        let div = document.createElement("div");
+        div.style.position = "relative";
+        list.forEach((item) => {
+          div.appendChild(item);
+        });
+        div.style.height = height + "px";
+        div.style.border = "1px solid red";
+        return div;
+      }
+      function exportpdf() {
+        console.log(123);
+        let wrap = document.getElementById("container");
+        let alllist = Array.from(wrap.children);
+
+        let list = alllist.filter((item) => !isPage(item));
+        let pageList = alllist.filter(isPage);
+
+        pageList.forEach((item) => {
+          item.tt = getY(item);
+          item.bb = getY(item) + getHeight(item.style.height);
+          item.style.display = "block";
+          item.style.position = "static";
+          item.style["page-break-after"] = "always";
+        });
+
+        let sList = list.filter((item) => {
+          return getB(item) <= pageList[0].tt;
+        });
+        let eList = list.filter((item) => {
+          return getY(item) > pageList[pageList.length - 1].bb;
+        });
+
+        let result = [];
+        result.push(getDiv(sList, pageList[0].tt));
+
+        // 首先找到比第一个page小的，和比最后一个page大的分两组
+
+        for (let i = 0; i + 1 < pageList.length; i++) {
+          result.push(pageList[i]);
+          let topY = pageList[i].bb;
+          let bottomY = pageList[i + 1].tt;
+
+          let tempList = list.filter((item) => {
+            return topY <= getY(item) && getY(item) <= bottomY;
+          });
+
+          tempList.forEach((ii) => {
+            ii.style.top = getY(ii) - topY + "px";
+          });
+
+          result.push(getDiv(tempList, bottomY - topY));
+        }
+        result.push(pageList[pageList.length - 1]);
+
+        updateHeight(eList, pageList[pageList.length - 1]);
+        result.push(getDiv(eList, 600 - pageList[pageList.length - 1].bb));
+
+        console.log(result);
+        let target = document.getElementById("target");
+        result.forEach((item) => {
+          target.appendChild(item);
+        });
+      }
+    </script>
   </body>
 </html>
